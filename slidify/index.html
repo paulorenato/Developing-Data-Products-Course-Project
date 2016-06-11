@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Shiny 'Roominator' App</title>
+  <meta charset="utf-8">
+  <meta name="description" content="The Shiny 'Roominator' App">
+  <meta name="author" content="Paulo Oliveira">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="./assets//img/my_logo.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>The Shiny 'Roominator' App</h1>
+    <h2>Silicon Valley Room Rent Estimator</h2>
+    <p>Paulo Oliveira<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>What is the &quot;Shiny Roominator App&quot; ?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Want to rent a room but don&#39;t know the going rental costs? The &#39;Shiny Roominator&quot; is a room rent estimator App for people looking to rent a room in the California Silicon Valley. </p>
+
+<h3>Inputs</h3>
+
+<ul>
+<li>Town where the room is located</li>
+<li>Size of the room in sqft</li>
+<li>Whether the room has a private bathroom</li>
+<li>Desired prediction confidence percentage</li>
+</ul>
+
+<h3>Outputs</h3>
+
+<ul>
+<li>Histogram and dsnsity plot</li>
+<li>Mean and median rents</li>
+<li>Estimated price for the parameters selected with Upper/Lower bounds</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>The Dataset</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The author collected rent data from popular websites and built a dataset with the results.</p>
+
+<pre><code class="r">df &lt;- readRDS(&#39;rents.Rds&#39;)
+head(df)
+</code></pre>
+
+<pre><code>##                      town sqft rent private
+## 2          san jose south  145  850      NO
+## 4               palo alto  130  950      NO
+## 5           san jose east  320  895      NO
+## 6 hayward / castro valley  130  900      NO
+## 7               sunnyvale  170 1150      NO
+## 8          san jose south  120  750      NO
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>How it works</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The rents.Rds dataset is used to build a simple linear prediction model based on the &#39;Inputs&#39;:</p>
+
+<pre><code class="r"># read rents data
+df &lt;- readRDS(&#39;rents.Rds&#39;)
+# Build linear model. This code runs only once since it&#39;s outside the i/o function
+fit &lt;- lm(rent ~ sqft + private + town, data = df)
+</code></pre>
+
+<ul>
+<li><p>A rent prediction including upper and lower prediction interval bounds is displayed based on the
+confidence level the user selected:</p>
+
+<ul>
+<li>1. Using the Left panel, select the town where the room is located, the room size (&#39;square footage&#39;), and whether or not the room has a private bathroom.</li>
+<li>2. Select a confidence level for the rent prediction. The lower the confidence, the narrower the resulting prediction interval will be.</li>
+<li>3. The right panel displays an histogram for the datapoints found in the dataset matching the left panel selections. A density plot estimate is overlayed with the histogram (you can think of this as an &quot;estimate&#39; of the underlying rent price distribution).</li>
+<li>4. The median, mean and predicted rents are calculated and displayed on the right panel.</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Interface</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/img/interface.png" alt=""></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='What is the &quot;Shiny Roominator App&quot; ?'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='The Dataset'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='How it works'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Interface'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
